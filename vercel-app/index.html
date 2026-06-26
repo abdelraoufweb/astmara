@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الطلاب - Estmara American Academy</title>
+  <link rel="stylesheet" href="style.css">
+  <script>
+    const API_BASE = 'https://your-backend-url.com';
+  </script>
+</head>
+<body>
+  <div class="animated-bg"></div>
+  <div class="gradient-overlay"></div>
+  <canvas id="particles-canvas"></canvas>
+
+  <div class="container">
+    <div class="logo-container">
+      <img src="logo.png" alt="Estmara American Academy" class="logo" id="logoImg">
+    </div>
+
+    <div class="form-card" id="formCard">
+      <h1 class="form-title">تسجيل الطلاب</h1>
+      <p class="form-subtitle">أكاديمية استمرار الأمريكية</p>
+
+      <form id="registrationForm" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="name">الاسم بالكامل</label>
+          <input type="text" id="name" class="form-input" placeholder="أدخل الاسم كاملاً" required>
+          <div class="error-message" id="nameError">الرجاء إدخال الاسم بالكامل</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="studentPhone">رقم الطالب</label>
+          <input type="tel" id="studentPhone" class="form-input" placeholder="مثال: 01012345678" required>
+          <div class="error-message" id="studentPhoneError">الرجاء إدخال رقم مصري صحيح (11 رقم)</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="parentPhone">رقم ولي الأمر</label>
+          <input type="tel" id="parentPhone" class="form-input" placeholder="مثال: 01012345678" required>
+          <div class="error-message" id="parentPhoneError">الرجاء إدخال رقم مصري صحيح (11 رقم)</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">اختر المدرس</label>
+          <div class="radio-group" id="instructorGroup">
+            <div class="radio-card">
+              <input type="radio" name="instructor" id="profAhmed" value="prof_ahmed" required>
+              <label for="profAhmed">
+                <span class="radio-icon">👨‍🏫</span>
+                <span class="radio-text">Prof Ahmed Raouf</span>
+              </label>
+            </div>
+            <div class="radio-card">
+              <input type="radio" name="instructor" id="profAssem" value="prof_assem" required>
+              <label for="profAssem">
+                <span class="radio-icon">👨‍🏫</span>
+                <span class="radio-text">Prof Assem Raouf</span>
+              </label>
+            </div>
+          </div>
+          <div class="error-message" id="instructorError">الرجاء اختيار المدرس</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">طريقة الحضور</label>
+          <div class="radio-group" id="methodGroup">
+            <div class="radio-card">
+              <input type="radio" name="method" id="methodOnline" value="online" required>
+              <label for="methodOnline">
+                <span class="radio-icon">📡</span>
+                <span class="radio-text">أونلاين</span>
+              </label>
+            </div>
+            <div class="radio-card">
+              <input type="radio" name="method" id="methodCenter" value="center" required>
+              <label for="methodCenter">
+                <span class="radio-icon">🏛️</span>
+                <span class="radio-text">سنتر</span>
+              </label>
+            </div>
+          </div>
+          <div class="error-message" id="methodError">الرجاء اختيار طريقة الحضور</div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">
+          سجل الآن ✨
+        </button>
+      </form>
+    </div>
+
+    <div class="success-card" id="successCard">
+      <div class="checkmark-container">
+        <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+          <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+          <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+      </div>
+      <h2 class="success-title">تم التسجيل بنجاح! 🎉</h2>
+      <p class="success-name" id="successName"></p>
+      <p class="success-sub">سيتم التواصل معك قريباً</p>
+      <div class="stats-grid" id="statsGrid"></div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('registrationForm');
+    const formCard = document.getElementById('formCard');
+    const successCard = document.getElementById('successCard');
+    const submitBtn = document.getElementById('submitBtn');
+    const statsGrid = document.getElementById('statsGrid');
+    const successName = document.getElementById('successName');
+
+    const nameInput = document.getElementById('name');
+    const studentPhoneInput = document.getElementById('studentPhone');
+    const parentPhoneInput = document.getElementById('parentPhone');
+    const instructorInputs = document.querySelectorAll('input[name="instructor"]');
+    const methodInputs = document.querySelectorAll('input[name="method"]');
+
+    const nameError = document.getElementById('nameError');
+    const studentPhoneError = document.getElementById('studentPhoneError');
+    const parentPhoneError = document.getElementById('parentPhoneError');
+    const instructorError = document.getElementById('instructorError');
+    const methodError = document.getElementById('methodError');
+
+    const egyptPhoneRegex = /^01[0-9]{9}$/;
+
+    const inputFields = [nameInput, studentPhoneInput, parentPhoneInput];
+
+    inputFields.forEach(input => {
+      input.addEventListener('input', function() {
+        this.classList.remove('error');
+        const errEl = document.getElementById(this.id + 'Error');
+        if (errEl) errEl.classList.remove('visible');
+      });
+
+      input.addEventListener('focus', function() {
+        this.parentElement.style.transform = 'translateX(0)';
+      });
+    });
+
+    instructorInputs.forEach(input => {
+      input.addEventListener('change', function() {
+        instructorError.classList.remove('visible');
+      });
+    });
+
+    methodInputs.forEach(input => {
+      input.addEventListener('change', function() {
+        methodError.classList.remove('visible');
+      });
+    });
+
+    submitBtn.addEventListener('click', function(e) {
+      const rect = this.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      const size = Math.max(rect.width, rect.height);
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+    });
+
+    function validateField(input, errorEl, validationFn) {
+      if (!validationFn(input.value)) {
+        input.classList.add('error');
+        errorEl.classList.add('visible');
+        return false;
+      }
+      input.classList.remove('error');
+      errorEl.classList.remove('visible');
+      return true;
+    }
+
+    function validateForm() {
+      let valid = true;
+
+      if (!validateField(nameInput, nameError, v => v.trim().length >= 3)) valid = false;
+      if (!validateField(studentPhoneInput, studentPhoneError, v => egyptPhoneRegex.test(v.replace(/[^0-9]/g, '')))) valid = false;
+      if (!validateField(parentPhoneInput, parentPhoneError, v => egyptPhoneRegex.test(v.replace(/[^0-9]/g, '')))) valid = false;
+
+      const instructorSelected = Array.from(instructorInputs).some(i => i.checked);
+      if (!instructorSelected) {
+        instructorError.classList.add('visible');
+        valid = false;
+      } else {
+        instructorError.classList.remove('visible');
+      }
+
+      const methodSelected = Array.from(methodInputs).some(i => i.checked);
+      if (!methodSelected) {
+        methodError.classList.add('visible');
+        valid = false;
+      } else {
+        methodError.classList.remove('visible');
+      }
+
+      return valid;
+    }
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      if (!validateForm()) return;
+
+      submitBtn.classList.add('loading');
+      submitBtn.innerHTML = 'جاري التسجيل... <span class="spinner"></span>';
+
+      const formData = {
+        name: nameInput.value.trim(),
+        studentPhone: studentPhoneInput.value.trim(),
+        parentPhone: parentPhoneInput.value.trim(),
+        instructor: document.querySelector('input[name="instructor"]:checked').value,
+        method: document.querySelector('input[name="method"]:checked').value
+      };
+
+      try {
+        const res = await fetch(API_BASE + '/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || 'حدث خطأ');
+        }
+
+        showSuccess(data);
+      } catch (err) {
+        submitBtn.classList.remove('loading');
+        submitBtn.innerHTML = 'سجل الآن ✨';
+
+        if (err.message.includes('رقم')) {
+          const fieldMap = { 'الطالب': studentPhoneInput, 'ولي الأمر': parentPhoneInput };
+          for (const [key, input] of Object.entries(fieldMap)) {
+            if (err.message.includes(key)) {
+              input.classList.add('error');
+              document.getElementById(input.id + 'Error').textContent = err.message;
+              document.getElementById(input.id + 'Error').classList.add('visible');
+            }
+          }
+        } else {
+          alert('❌ ' + err.message);
+        }
+      }
+    });
+
+    function showSuccess(data) {
+      formCard.classList.add('hidden');
+      successCard.classList.add('visible');
+      successName.textContent = data.student.name;
+      launchConfetti();
+      renderStats(data.stats);
+    }
+
+    function renderStats(stats) {
+      statsGrid.innerHTML = `
+        <div class="stat-card">
+          <div class="stat-number">${stats.online}</div>
+          <div class="stat-label">أونلاين</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">${stats.center}</div>
+          <div class="stat-label">سنتر</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">${stats.ahmed}</div>
+          <div class="stat-label">مع مستر أحمد</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">${stats.assem}</div>
+          <div class="stat-label">مع مستر عاصم</div>
+        </div>
+        <div class="stat-card stat-total">
+          <div class="stat-number">${stats.total}</div>
+          <div class="stat-label">الإجمالي</div>
+        </div>
+      `;
+    }
+
+    function launchConfetti() {
+      const container = document.createElement('div');
+      container.className = 'confetti-container';
+      document.body.appendChild(container);
+
+      const colors = ['#c9a227', '#e8c44a', '#ff6b6b', '#48dbfb', '#ff9ff3', '#54a0ff', '#5f27cd', '#01a3a4', '#f368e0', '#ffd32a'];
+      const shapes = ['■', '●', '▲', '★', '♦'];
+
+      for (let i = 0; i < 120; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+        piece.style.left = Math.random() * 100 + '%';
+        piece.style.color = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.fontSize = (Math.random() * 14 + 8) + 'px';
+        piece.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+        piece.style.animationDelay = Math.random() * 1.5 + 's';
+        container.appendChild(piece);
+      }
+
+      setTimeout(() => container.remove(), 5000);
+    }
+
+    const canvas = document.getElementById('particles-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let animationId;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.5;
+        this.speedY = (Math.random() - 0.5) * 0.5;
+        this.opacity = Math.random() * 0.5 + 0.1;
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(201, 162, 39, ${this.opacity})`;
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      const count = Math.min(Math.floor(canvas.width * canvas.height / 10000), 80);
+      for (let i = 0; i < count; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => { p.update(); p.draw(); });
+
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(201, 162, 39, ${0.06 * (1 - dist / 120)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+
+      animationId = requestAnimationFrame(animateParticles);
+    }
+
+    initParticles();
+    animateParticles();
+
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        cancelAnimationFrame(animationId);
+      } else {
+        animateParticles();
+      }
+    });
+  </script>
+</body>
+</html>

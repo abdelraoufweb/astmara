@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Registration — Estmara American Academy</title>
+  <meta name="description" content="Official student registration portal for Estmara American Academy. Enroll with Prof. Ahmed Raouf or Prof. Assem Raouf.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Splash Screen Intro -->
+  <div class="splash-screen" id="splashScreen">
+    <div class="splash-logo-container">
+      <img src="logo.png" alt="Logo" class="splash-logo">
+      <div class="splash-loader"></div>
+    </div>
+  </div>
+
+  <!-- 3D Background Scene -->
+  <div class="scene">
+    <div class="scene-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+  </div>
+
+  <canvas id="particleCanvas"></canvas>
+
+  <div class="page-wrapper">
+
+    <!-- Header -->
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="logo-wrap">
+          <img src="logo.png" alt="Estmara American Academy" class="site-logo" id="logoImg">
+        </div>
+        <div class="header-text">
+          <h2 class="academy-name">Estmara American Academy</h2>
+          <span class="academy-tagline">Excellence · Innovation · Future</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Enrollment Open 2025
+      </div>
+      <h1 class="hero-title">
+        Begin Your <span class="gradient-text">Academic Journey</span>
+      </h1>
+      <p class="hero-subtitle">
+        Register now with Egypt's top educators and unlock a world-class learning experience — online or in-center.
+      </p>
+    </section>
+
+    <!-- Registration Card -->
+    <main class="main-content">
+      <div class="form-card glass-card" id="formCard">
+
+        <div class="card-header">
+          <div class="card-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div>
+            <h2 class="card-title">Student Registration</h2>
+            <p class="card-subtitle">Fill in your details below to enroll</p>
+          </div>
+        </div>
+
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <form id="registrationForm" novalidate>
+
+          <!-- Step 1: Personal Info -->
+          <div class="form-section" id="step1">
+            <div class="section-label">
+              <span class="step-num">01</span>
+              Personal Information
+            </div>
+
+            <div class="field-group">
+              <div class="field-wrap">
+                <label class="field-label" for="name">Full Name</label>
+                <div class="input-shell">
+                  <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  <input type="text" id="name" class="field-input" placeholder="Enter your full name" autocomplete="name" required>
+                </div>
+                <span class="field-error" id="nameError">Please enter your full name (min. 3 characters)</span>
+              </div>
+
+              <div class="field-wrap">
+                <label class="field-label" for="studentPhone">Student Phone Number</label>
+                <div class="input-shell">
+                  <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.44 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.4a16 16 0 0 0 6.69 6.69l.96-.96a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  <input type="tel" id="studentPhone" class="field-input" placeholder="e.g. 01012345678" required>
+                </div>
+                <span class="field-error" id="studentPhoneError">Please enter a valid Egyptian number (11 digits)</span>
+              </div>
+
+              <div class="field-wrap">
+                <label class="field-label" for="parentPhone">Parent Phone Number</label>
+                <div class="input-shell">
+                  <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.44 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.4a16 16 0 0 0 6.69 6.69l.96-.96a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  <input type="tel" id="parentPhone" class="field-input" placeholder="e.g. 01012345678" required>
+                </div>
+                <span class="field-error" id="parentPhoneError">Please enter a valid Egyptian number (11 digits)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Choose Your Instructor -->
+          <div class="form-section" id="step2">
+            <div class="section-label">
+              <span class="step-num">02</span>
+              Choose Your Instructor & Study Method
+            </div>
+            <span class="field-error block-error" id="instructorError">Please select an instructor and a study method</span>
+
+            <div class="instructors-grid">
+
+              <!-- Prof Ahmed Card -->
+              <div class="instructor-card" id="ahmedCard">
+                <div class="instructor-header">
+                  <div class="instructor-avatar ahmed-avatar">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                  </div>
+                  <div class="instructor-info">
+                    <h3 class="instructor-name">Prof. Ahmed Raouf</h3>
+                    <span class="instructor-tag">Mathematics Expert</span>
+                  </div>
+                  <div class="instructor-check" id="ahmedCheck">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                </div>
+
+                <div class="method-row">
+                  <label class="method-chip" id="ahmed-online-label">
+                    <input type="radio" name="ahmed-method" id="ahmedOnline" value="online" class="hidden-radio" data-instructor="prof_ahmed">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    Online
+                  </label>
+                  <label class="method-chip" id="ahmed-center-label">
+                    <input type="radio" name="ahmed-method" id="ahmedCenter" value="center" class="hidden-radio" data-instructor="prof_ahmed">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    In-Center
+                  </label>
+                </div>
+              </div>
+
+              <!-- VS Divider -->
+              <div class="vs-divider">
+                <span>OR</span>
+              </div>
+
+              <!-- Prof Assem Card -->
+              <div class="instructor-card" id="assemCard">
+                <div class="instructor-header">
+                  <div class="instructor-avatar assem-avatar">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                  </div>
+                  <div class="instructor-info">
+                    <h3 class="instructor-name">Prof. Assem Raouf</h3>
+                    <span class="instructor-tag">Science Specialist</span>
+                  </div>
+                  <div class="instructor-check" id="assemCheck">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                  </div>
+                </div>
+
+                <div class="method-row">
+                  <label class="method-chip" id="assem-online-label">
+                    <input type="radio" name="assem-method" id="assemOnline" value="online" class="hidden-radio" data-instructor="prof_assem">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    Online
+                  </label>
+                  <label class="method-chip" id="assem-center-label">
+                    <input type="radio" name="assem-method" id="assemCenter" value="center" class="hidden-radio" data-instructor="prof_assem">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    In-Center
+                  </label>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="submit-btn" id="submitBtn">
+            <span class="btn-content" id="btnContent">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+              Complete Registration
+            </span>
+            <div class="btn-glow"></div>
+          </button>
+
+        </form>
+      </div>
+
+      <!-- Success Card -->
+      <div class="success-card glass-card" id="successCard">
+        <div class="success-animation">
+          <div class="success-ring ring-1"></div>
+          <div class="success-ring ring-2"></div>
+          <div class="success-ring ring-3"></div>
+          <div class="success-icon">
+            <svg width="48" height="48" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+              <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+              <path class="checkmark-path" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+          </div>
+        </div>
+
+        <h2 class="success-heading">Registration Successful!</h2>
+        <p class="success-name-display" id="successName"></p>
+        <p class="success-message">You're now enrolled. Our team will reach out shortly.</p>
+
+        <div class="success-details" id="successDetails"></div>
+
+        <div class="stats-section">
+          <h3 class="stats-title">Live Enrollment Stats</h3>
+          <div class="stats-grid" id="statsGrid"></div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <p>© 2025 Estmara American Academy — All Rights Reserved</p>
+    </footer>
+
+  </div>
+
+  <div class="confetti-container" id="confettiContainer"></div>
+
+  <script>
+    // ============================================================
+    //  UTILITY
+    // ============================================================
+    const egyptPhoneRegex = /^01[0-9]{9}$/;
+
+    const $ = id => document.getElementById(id);
+    const form         = $('registrationForm');
+    const formCard     = $('formCard');
+    const successCard  = $('successCard');
+    const submitBtn    = $('submitBtn');
+    const btnContent   = $('btnContent');
+    const progressFill = $('progressFill');
+    const successName  = $('successName');
+    const statsGrid    = $('statsGrid');
+    const successDetails = $('successDetails');
+
+    // ============================================================
+    //  PROGRESS BAR (based on filled fields)
+    // ============================================================
+    function updateProgress() {
+      const fields = [
+        $('name').value.trim().length >= 3,
+        egyptPhoneRegex.test($('studentPhone').value.replace(/\D/g,'')),
+        egyptPhoneRegex.test($('parentPhone').value.replace(/\D/g,'')),
+        getSelectedInstructor() !== null,
+        getSelectedMethod() !== null
+      ];
+      const pct = (fields.filter(Boolean).length / fields.length) * 100;
+      progressFill.style.width = pct + '%';
+    }
+
+    // ============================================================
+    //  INSTRUCTOR SELECTION LOGIC
+    // ============================================================
+    function getSelectedInstructor() {
+      const ahmedMethod = document.querySelector('input[name="ahmed-method"]:checked');
+      const assemMethod = document.querySelector('input[name="assem-method"]:checked');
+      if (ahmedMethod) return 'prof_ahmed';
+      if (assemMethod) return 'prof_assem';
+      return null;
+    }
+
+    function getSelectedMethod() {
+      const ahmedMethod = document.querySelector('input[name="ahmed-method"]:checked');
+      const assemMethod = document.querySelector('input[name="assem-method"]:checked');
+      if (ahmedMethod) return ahmedMethod.value;
+      if (assemMethod) return assemMethod.value;
+      return null;
+    }
+
+    // Highlight instructor card when a method is chosen
+    function setupInstructorCards() {
+      const ahmedMethods = document.querySelectorAll('input[name="ahmed-method"]');
+      const assemMethods = document.querySelectorAll('input[name="assem-method"]');
+
+      ahmedMethods.forEach(radio => {
+        radio.addEventListener('change', () => {
+          // Deselect assem if ahmed is selected
+          assemMethods.forEach(r => r.checked = false);
+          $('assemCard').classList.remove('selected');
+          $('assemCheck').classList.remove('active');
+          ['assem-online-label','assem-center-label'].forEach(id => {
+            $(id) && $(id).classList.remove('active');
+          });
+
+          $('ahmedCard').classList.add('selected');
+          $('ahmedCheck').classList.add('active');
+          $('instructorError').classList.remove('visible');
+
+          document.querySelectorAll('#ahmedCard .method-chip').forEach(c => c.classList.remove('active'));
+          radio.closest('label').classList.add('active');
+          updateProgress();
+        });
+      });
+
+      assemMethods.forEach(radio => {
+        radio.addEventListener('change', () => {
+          // Deselect ahmed if assem is selected
+          ahmedMethods.forEach(r => r.checked = false);
+          $('ahmedCard').classList.remove('selected');
+          $('ahmedCheck').classList.remove('active');
+          ['ahmed-online-label','ahmed-center-label'].forEach(id => {
+            $(id) && $(id).classList.remove('active');
+          });
+
+          $('assemCard').classList.add('selected');
+          $('assemCheck').classList.add('active');
+          $('instructorError').classList.remove('visible');
+
+          document.querySelectorAll('#assemCard .method-chip').forEach(c => c.classList.remove('active'));
+          radio.closest('label').classList.add('active');
+          updateProgress();
+        });
+      });
+    }
+
+    setupInstructorCards();
+
+    // ============================================================
+    //  LIVE INPUT VALIDATION
+    // ============================================================
+    ['name','studentPhone','parentPhone'].forEach(id => {
+      const el = $(id);
+      el.addEventListener('input', () => {
+        el.classList.remove('invalid');
+        $(id + 'Error').classList.remove('visible');
+        updateProgress();
+      });
+    });
+
+    // ============================================================
+    //  VALIDATION
+    // ============================================================
+    function validateAll() {
+      let ok = true;
+
+      const nameVal = $('name').value.trim();
+      if (nameVal.length < 3) {
+        $('name').classList.add('invalid');
+        $('nameError').classList.add('visible');
+        ok = false;
+      }
+
+      const spVal = $('studentPhone').value.replace(/\D/g,'');
+      if (!egyptPhoneRegex.test(spVal)) {
+        $('studentPhone').classList.add('invalid');
+        $('studentPhoneError').classList.add('visible');
+        ok = false;
+      }
+
+      const ppVal = $('parentPhone').value.replace(/\D/g,'');
+      if (!egyptPhoneRegex.test(ppVal)) {
+        $('parentPhone').classList.add('invalid');
+        $('parentPhoneError').classList.add('visible');
+        ok = false;
+      }
+
+      if (!getSelectedInstructor()) {
+        $('instructorError').classList.add('visible');
+        ok = false;
+      }
+
+      return ok;
+    }
+
+    // ============================================================
+    //  FORM SUBMIT
+    // ============================================================
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      if (!validateAll()) {
+        // Shake invalid fields
+        document.querySelectorAll('.field-input.invalid').forEach(el => {
+          el.classList.add('shake');
+          setTimeout(() => el.classList.remove('shake'), 500);
+        });
+        return;
+      }
+
+      setLoading(true);
+
+      const payload = {
+        name:         $('name').value.trim(),
+        studentPhone: $('studentPhone').value.trim(),
+        parentPhone:  $('parentPhone').value.trim(),
+        instructor:   getSelectedInstructor(),
+        method:       getSelectedMethod()
+      };
+
+      try {
+        const res  = await fetch('/api/register', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'An error occurred. Please try again.');
+        showSuccess(data, payload);
+      } catch (err) {
+        setLoading(false);
+        showToast(err.message, 'error');
+      }
+    });
+
+    function setLoading(state) {
+      submitBtn.disabled = state;
+      btnContent.innerHTML = state
+        ? '<span class="spinner"></span> Registering...'
+        : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg> Complete Registration';
+    }
+
+    // ============================================================
+    //  SUCCESS SCREEN
+    // ============================================================
+    function showSuccess(data, payload) {
+      formCard.classList.add('exit');
+      setTimeout(() => {
+        formCard.classList.add('hidden');
+        successCard.classList.add('visible');
+        successName.textContent = data.student.name;
+
+        const instrLabel  = payload.instructor === 'prof_ahmed' ? 'Prof. Ahmed Raouf' : 'Prof. Assem Raouf';
+        const methodLabel = payload.method === 'online' ? 'Online' : 'In-Center';
+        successDetails.innerHTML = `
+          <div class="detail-pill">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            ${instrLabel}
+          </div>
+          <div class="detail-pill">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10z"/></svg>
+            ${methodLabel}
+          </div>
+        `;
+
+        renderStats(data.stats);
+        launchConfetti();
+      }, 400);
+    }
+
+    function renderStats(stats) {
+      statsGrid.innerHTML = `
+        <div class="stat-item">
+          <div class="stat-val">${stats.online}</div>
+          <div class="stat-lbl">Online</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">${stats.center}</div>
+          <div class="stat-lbl">In-Center</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">${stats.ahmed}</div>
+          <div class="stat-lbl">Prof. Ahmed</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">${stats.assem}</div>
+          <div class="stat-lbl">Prof. Assem</div>
+        </div>
+        <div class="stat-item stat-total-item">
+          <div class="stat-val">${stats.total}</div>
+          <div class="stat-lbl">Total Enrolled</div>
+        </div>
+      `;
+    }
+
+    // ============================================================
+    //  TOAST
+    // ============================================================
+    function showToast(msg, type='error') {
+      const toast = document.createElement('div');
+      toast.className = 'toast toast-' + type;
+      toast.textContent = msg;
+      document.body.appendChild(toast);
+      requestAnimationFrame(() => toast.classList.add('show'));
+      setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 4000);
+    }
+
+    // ============================================================
+    //  CONFETTI
+    // ============================================================
+    function launchConfetti() {
+      const container = $('confettiContainer');
+      const colors = ['#c9a227','#e8c44a','#4facfe','#00f2fe','#a18cd1','#fbc2eb','#f093fb','#84fab0'];
+      for (let i = 0; i < 140; i++) {
+        const p = document.createElement('div');
+        p.className = 'confetti-bit';
+        p.style.cssText = `
+          left:${Math.random()*100}%;
+          background:${colors[Math.floor(Math.random()*colors.length)]};
+          width:${Math.random()*8+4}px;
+          height:${Math.random()*12+6}px;
+          border-radius:${Math.random()>0.5?'50%':'3px'};
+          animation-duration:${Math.random()*2+1.8}s;
+          animation-delay:${Math.random()*1.2}s;
+          transform:rotate(${Math.random()*360}deg);
+        `;
+        container.appendChild(p);
+      }
+      setTimeout(() => { container.innerHTML = ''; }, 6000);
+    }
+
+    // ============================================================
+    //  SPLASH SCREEN
+    // ============================================================
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const splash = $('splashScreen');
+        if (splash) {
+          splash.classList.add('fade-out');
+          setTimeout(() => splash.remove(), 600);
+        }
+      }, 1500); // Intro duration
+    });
+
+    // ============================================================
+    //  PARTICLE CANVAS
+    // ============================================================
+    (function(){
+      const canvas = $('particleCanvas');
+      const ctx = canvas.getContext('2d');
+      let pts = [], W, H;
+
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      class Pt {
+        constructor() { this.init(); }
+        init() {
+          this.x = Math.random()*W; this.y = Math.random()*H;
+          this.vx = (Math.random()-.5)*.4; this.vy = (Math.random()-.5)*.4;
+          this.r = Math.random()*1.5+.5;
+          this.a = Math.random()*.4+.05;
+        }
+        tick() {
+          this.x+=this.vx; this.y+=this.vy;
+          if(this.x<0||this.x>W) this.vx*=-1;
+          if(this.y<0||this.y>H) this.vy*=-1;
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+          ctx.fillStyle=`rgba(201,162,39,${this.a})`;
+          ctx.fill();
+        }
+      }
+
+      const count = Math.min(Math.floor(W*H/12000),70);
+      for(let i=0;i<count;i++) pts.push(new Pt());
+
+      function loop() {
+        ctx.clearRect(0,0,W,H);
+        pts.forEach(p => { p.tick(); p.draw(); });
+        for(let i=0;i<pts.length;i++) {
+          for(let j=i+1;j<pts.length;j++) {
+            const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y;
+            const d=Math.sqrt(dx*dx+dy*dy);
+            if(d<130) {
+              ctx.beginPath();
+              ctx.moveTo(pts[i].x,pts[i].y);
+              ctx.lineTo(pts[j].x,pts[j].y);
+              ctx.strokeStyle=`rgba(201,162,39,${.05*(1-d/130)})`;
+              ctx.lineWidth=.5;
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(loop);
+      }
+      loop();
+    })();
+
+    // ============================================================
+    //  3D TILT ON CARD
+    // ============================================================
+    (function(){
+      const card = $('formCard');
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const cx = r.left + r.width/2, cy = r.top + r.height/2;
+        const dx = (e.clientX - cx)/r.width*10;
+        const dy = (e.clientY - cy)/r.height*-10;
+        card.style.transform = `perspective(1000px) rotateY(${dx}deg) rotateX(${dy}deg) translateZ(4px)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    })();
+
+    updateProgress();
+  </script>
+</body>
+</html>

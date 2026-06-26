@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "https://estmara-api.up.railway.app/api/$1" }
+  ]
+}
