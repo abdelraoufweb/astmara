@@ -28,8 +28,8 @@ async function connectToWhatsApp() {
     printQRInTerminal: false,
     auth: state,
     logger: waLogger,
-    browser: Browsers.macOS('Desktop'),
-    markOnlineOnConnect: true
+    browser: ['Ubuntu', 'Chrome', '20.0.04'],
+    markOnlineOnConnect: false
   });
 
   sock.ev.on('creds.update', saveCreds);
@@ -64,21 +64,12 @@ async function connectToWhatsApp() {
 
   sock.ev.on('messages.upsert', () => {});
 
-  startPing();
-
+  // أزلنا دالة الـ ping المستمرة لأن إرسال 'available' كل 30 ثانية يسبب حظر الرقم (يبدو كبوت)
   return sock;
 }
 
-function startPing() {
-  if (pingInterval) clearInterval(pingInterval);
-  pingInterval = setInterval(async () => {
-    if (sock && isConnected) {
-      try {
-        await sock.sendPresenceUpdate('available');
-      } catch (e) {}
-    }
-  }, 30000);
-}
+// دالة توقف مؤقت لمحاكاة الكتابة البشرية
+const delay = ms => new Promise(res => setTimeout(res, ms));
 
 async function sendMessage(phone, text) {
   if (!sock || !isConnected) {
@@ -88,6 +79,11 @@ async function sendMessage(phone, text) {
   const jid = formatPhone(phone);
 
   try {
+    // محاكاة سلوك بشري لتجنب الحظر: الظهور "يكتب..." لمدة 3 ثواني قبل الإرسال
+    await sock.sendPresenceUpdate('composing', jid);
+    await delay(3000 + Math.random() * 2000); // تأخير عشوائي بين 3 و 5 ثواني
+    await sock.sendPresenceUpdate('paused', jid);
+
     await sock.sendMessage(jid, { text });
     console.log(`📤 تم إرسال الرسالة إلى ${phone}`);
     return true;

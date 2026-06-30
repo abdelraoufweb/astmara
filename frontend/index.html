@@ -244,6 +244,16 @@
 
   <script>
     // ============================================================
+    //  BACKEND URL — غيّر هذا الرابط برابط Hugging Face الخاص بك
+    // ============================================================
+    const API_BASE = 'https://abdelraouf-backend.hf.space';
+
+    // Keep-alive: يبعت ping كل 4 دقايق عشان السيرفر ميناموش والواتساب ميقطعش
+    setInterval(() => {
+      fetch(`${API_BASE}/`).catch(() => {});
+    }, 4 * 60 * 1000);
+
+    // ============================================================
     //  UTILITY
     // ============================================================
     const egyptPhoneRegex = /^01[0-9]{9}$/;
@@ -413,7 +423,7 @@
       };
 
       try {
-        const res  = await fetch('/api/register', {
+        const res  = await fetch(`${API_BASE}/api/register`, {
           method:  'POST',
           headers: { 'Content-Type': 'application/json' },
           body:    JSON.stringify(payload)

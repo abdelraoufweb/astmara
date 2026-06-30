@@ -10,7 +10,13 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const ADMIN_PHONE = process.env.ADMIN_PHONE || '+201112966609';
 
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+app.options('*', cors());
+
 app.use(bodyParser.json());
 // No static files served here, purely backend API.
 
